@@ -86,6 +86,21 @@
   .ev h3{font-size:26px;text-transform:uppercase;font-weight:600}
   .ev .m{color:var(--muted);font-size:14px;margin-top:4px}
   .ev.past{opacity:.5}
+  .up{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+  .upc{display:grid;grid-template-columns:minmax(0,210px) minmax(0,1fr);gap:22px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px}
+  .upc:first-child{border-color:var(--acc)}
+  .upc img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:14px;cursor:zoom-in;display:block}
+  .upc .d{font-family:Oswald;font-weight:700;font-size:34px;color:var(--yel);text-transform:uppercase;line-height:1}
+  .upc h3{font-size:30px;text-transform:uppercase;font-weight:600;margin:6px 0 8px}
+  .upc .m{color:var(--muted);font-size:14px}
+  .pt{font-size:26px;text-transform:uppercase;margin:44px 0 14px;color:var(--muted)}
+  .strip{display:grid;grid-auto-flow:column;grid-auto-columns:180px;gap:14px;overflow-x:auto;padding-bottom:10px;scrollbar-width:thin}
+  .pp{cursor:zoom-in;font-size:13px}
+  .pp img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px;display:block;filter:grayscale(.35);transition:.15s}
+  .pp:hover img{filter:none;transform:translateY(-2px)}
+  .pp b{display:block;margin-top:8px;font-weight:600;line-height:1.3}
+  .pp span{color:var(--muted)}
+  .md.poster{max-width:560px;padding:0;background:none;border:0}
   .wish{margin-top:22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:linear-gradient(90deg,#1a1a1a,#26101d);border:1.5px dashed var(--acc);border-radius:var(--r);padding:20px 22px}
   .wish p{flex:1;min-width:240px}
   .wish input{flex:1;min-width:180px}
@@ -206,6 +221,7 @@
     .nav nav{display:none}
     .ev{grid-template-columns:80px 1fr}
     .ev .act{grid-column:1/-1}
+    .up{grid-template-columns:minmax(0,1fr)}
     .stats{flex-wrap:wrap}
   }
   @media (max-width:520px){
@@ -214,6 +230,8 @@
     .hero .cta .btn{white-space:normal;text-align:center;width:100%}
     .next .city{font-size:40px}
     .stk{right:6px;width:92px;top:-50px}
+    .upc{grid-template-columns:minmax(0,120px) minmax(0,1fr);gap:14px}
+    .upc h3{font-size:22px}.upc .d{font-size:26px}
     .wish input{max-width:none!important}
     .md{padding:22px}
   }
@@ -259,11 +277,11 @@
       <div class="next">
         <img class="stk" src="assets/sticker.jpg" alt="">
         <div class="k">Ближайший концерт</div>
-        <div class="city">Барселона</div>
-        <div class="meta">9 декабря, 20:00 · Street Fries Kitchen<br>«Серьёзный разговор»: импровизационный стендап, будет съёмка</div>
+        <div class="city">Лимассол</div>
+        <div class="meta">28 ноября, 19:00 · Shakespeare Gastropub<br>«Серьёзный разговор»: импровизационный стендап</div>
         <div class="row">
-          <div><span class="badge acc">от €20</span></div>
-          <button class="btn btn-acc" onclick="openTicket('bcn')">Купить билет</button>
+          <div class="note" style="font-size:14px">Дальше: <a href="#afisha" style="color:var(--text);text-decoration:underline">Барселона, 9 декабря</a></div>
+          <button class="btn btn-acc" onclick="openTicket('lim')">Купить билет</button>
         </div>
       </div>
       <a class="live" href="https://www.youtube.com/live/Zuh16_JSfQ8" target="_blank" rel="noopener">
@@ -378,9 +396,19 @@ const AV='assets/avatar.jpg';
 const th=id=>`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 const PROJ={'2s':'В два ствола','dp':'Друзья по переписке','sr':'Серьёзный разговор','sugar':'SugarPodcast'};
 
+// Афиши взяты из его Telegram (@shirokovtut) и Instagram (пост Vice Island про Лимассол)
 const EVENTS=[
-  {id:'bcn',d:'09',m:'дек',city:'Барселона',venue:'Street Fries Kitchen · Carrer d\'Ausiàs Marc, 19',time:'20:00, двери с 19:40',show:'Серьёзный разговор · будет съёмка',price:20,cur:'€'},
-  {id:'pl',d:'11–15',m:'ноя',city:'Польша, тур',venue:'Несколько городов',time:'',show:'Серьёзный разговор · съёмка в каждом городе',past:true},
+  {id:'lim',d:'28',m:'ноя',city:'Лимассол, Кипр',venue:'Shakespeare Gastropub · Georgiou A\' 93',time:'19:00',show:'Серьёзный разговор · импровизационный стендап',price:null,cur:'€',poster:'assets/posters/limassol-2811.jpg'},
+  {id:'bcn',d:'09',m:'дек',city:'Барселона',venue:'Street Fries Kitchen · Carrer d\'Ausiàs Marc, 19',time:'20:00, двери с 19:40',show:'Серьёзный разговор · будет съёмка',price:20,cur:'€',poster:'assets/posters/barcelona-0912.jpg'},
+];
+const PAST=[
+  {t:'Польша: Вроцлав 11.11, Варшава 13.11, Краков 15.11',s:'Серьёзный разговор · съёмка',poster:'assets/posters/poland-1111.jpg'},
+  {t:'Белград, 13 октября',s:'В два ствола · подкаст live · Modula',poster:'assets/posters/belgrade-1310.jpg'},
+  {t:'Белград, 6 октября',s:'В два ствола · импров-стендап · Polet',poster:'assets/posters/belgrade-0610.jpg'},
+  {t:'Варшава, 15 сентября',s:'Друзья по переписке · Stand-up Lokal',poster:'assets/posters/warsaw-1509.jpg'},
+  {t:'Варшава, 12 сентября',s:'Серьёзный разговор · Stand-up Lokal',poster:'assets/posters/warsaw-1209.jpg'},
+  {t:'Варшава, 11 сентября',s:'Друзья по переписке · Stand-up Lokal',poster:'assets/posters/warsaw-1109.jpg'},
+  {t:'Белград, 1 сентября',s:'В два ствола · подкаст live · Modula',poster:'assets/posters/belgrade-0109.jpg'},
 ];
 
 const VIDEOS=[
@@ -427,13 +455,24 @@ function renderAuth(){
   document.querySelectorAll('.demo button').forEach(b=>b.classList.toggle('on',b.dataset.r===role));
 }
 function renderEvents(){
-  $('#events').innerHTML=EVENTS.map(e=>`
-    <div class="ev ${e.past?'past':''}">
-      <div class="d">${e.d}<small>${e.m} 2026</small></div>
-      <div><h3>${e.city}</h3><div class="m">${e.venue}${e.time?' · '+e.time:''}</div><div class="m">${e.show}</div></div>
-      <div class="act">${e.past?'<span class="badge">Прошёл</span>':`<span class="badge acc" style="margin-right:10px">от ${e.cur}${e.price}</span><button class="btn btn-acc btn-sm" onclick="openTicket('${e.id}')">Купить</button>`}</div>
-    </div>`).join('');
+  $('#events').innerHTML=`<div class="up">${EVENTS.map(e=>`
+    <div class="upc">
+      <img src="${e.poster}" alt="Афиша: ${e.city}" onclick="openPoster('${e.poster}')">
+      <div>
+        <div class="d">${e.d} ${e.m}</div>
+        <h3>${e.city}</h3>
+        <div class="m">${e.venue}<br>${e.time}</div>
+        <div class="m" style="color:var(--text);margin-top:8px">${e.show}</div>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap">
+          ${e.price?`<span class="badge acc">от ${e.cur}${e.price}</span>`:''}
+          <button class="btn btn-acc btn-sm" onclick="openTicket('${e.id}')">Купить билет</button>
+        </div>
+      </div>
+    </div>`).join('')}</div>
+    <h3 class="pt">Прошедшие</h3>
+    <div class="strip">${PAST.map(p=>`<div class="pp" onclick="openPoster('${p.poster}')"><img src="${p.poster}" alt="" loading="lazy"><b>${p.t}</b><span>${p.s}</span></div>`).join('')}</div>`;
 }
+function openPoster(src){openM(`<img src="${src}" style="display:block;width:100%;border-radius:24px">`);$('#md').classList.add('poster');}
 function renderTabs(){
   const t=[['all','Всё'],['paid','Только полные версии'],...Object.entries(PROJ)];
   $('#tabs').innerHTML=t.map(([k,n])=>`<button class="tab ${filter===k?'on':''}" onclick="filter='${k}';renderTabs();renderGrid()">${n}</button>`).join('');
@@ -494,19 +533,19 @@ function openCheckout(k,label,eur,rub){
 }
 function openTicket(id){
   const e=EVENTS.find(x=>x.id===id); let q=1;
-  openM(`<h3>${e.city} · ${e.d} ${e.m}</h3><p class="sub" style="margin:0">${e.venue}<br>${e.time}</p>
+  openM(`<div style="display:flex;gap:16px;align-items:center;margin-bottom:4px"><img src="${e.poster}" alt="" style="width:84px;border-radius:10px"><div><h3>${e.city} · ${e.d} ${e.m}</h3><p class="note" style="font-size:14px">${e.venue}<br>${e.time}</p></div></div>
   <div class="f">
     <div style="display:flex;justify-content:space-between;align-items:center;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px">
-      <div><b>Стандарт</b><div class="note">${e.cur}${e.price} за билет</div></div>
+      <div><b>Стандарт</b><div class="note">${e.price?e.cur+e.price+' за билет':'цену в прототипе не нашёл, её задаёт организатор'}</div></div>
       <div style="display:flex;gap:10px;align-items:center"><button class="btn btn-ghost btn-sm" onclick="tq(-1)">−</button><b id="tq">1</b><button class="btn btn-ghost btn-sm" onclick="tq(1)">+</button></div>
     </div>
     <input type="email" placeholder="Почта для билетов">
     ${payMethods()}
-    <div class="sum"><span>Итого</span><span id="tsum">${e.cur}${e.price}</span></div>
+    <div class="sum"><span>Итого</span><span id="tsum">${e.price?e.cur+e.price:'—'}</span></div>
     <button class="btn btn-acc" onclick="buyTicket('${id}')">Оплатить (демо)</button>
     <div class="note">После оплаты билет с QR-кодом придёт на почту и появится в кабинете.</div>
   </div>`);
-  window.tq=d=>{q=Math.max(1,Math.min(10,q+d));$('#tq').textContent=q;$('#tsum').textContent=e.cur+(e.price*q);window._q=q;};window._q=1;
+  window.tq=d=>{q=Math.max(1,Math.min(10,q+d));$('#tq').textContent=q;$('#tsum').textContent=e.price?e.cur+(e.price*q):'—';window._q=q;};window._q=1;
 }
 function buyTicket(id){
   const e=EVENTS.find(x=>x.id===id);tickets.push({city:e.city,d:e.d+' '+e.m,q:window._q||1});localStorage.setItem('ks_t',JSON.stringify(tickets));
