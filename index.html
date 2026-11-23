@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Костя Широков — концерты, подкасты, полные версии</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Фирменные цвета взяты с его YouTube-аватара/шапки (розовый), обложек выпусков (жёлтый) и стикера на Patreon (бирюза/коралл) */
+  :root{
+    --bg:#0b0b0b; --bg2:#141414; --card:#1a1a1a; --line:#2b2b2b;
+    --text:#f5f5f5; --muted:#9a9a9a; --acc:#ff3aae; --yel:#ffd21a; --acc2:#ff3aae; --teal:#24c3be; --coral:#ff6a5c; --ok:#3ddc84;
+    --r:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font:16px/1.5 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+  h1,h2,h3,.disp{font-family:Oswald,Inter,sans-serif;letter-spacing:.005em;line-height:1.02}
+  h2{font-size:clamp(36px,5vw,64px);font-weight:700;text-transform:uppercase;margin-bottom:10px;display:inline-block;position:relative}
+  h2:after{content:"";position:absolute;left:-4px;right:-10px;bottom:-6px;height:14px;background:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 200 14%27 preserveAspectRatio=%27none%27%3E%3Cpath d=%27M2 9 C40 2, 70 13, 110 6 S170 3, 198 8%27 stroke=%27%23ff3aae%27 stroke-width=%274%27 fill=%27none%27 stroke-linecap=%27round%27/%3E%3C/svg%3E") center/100% 100% no-repeat}
+  .sub{margin-top:14px}
+  .hand{font-family:Caveat,cursive;font-weight:700}
+  .sub{color:var(--muted);margin-bottom:28px;max-width:640px}
+  section{padding:72px 0;border-top:1px solid var(--line)}
+
+  .proto{background:#fff;color:#111;font-size:13px;font-weight:600;text-align:center;padding:7px 12px}
+  .proto b{font-weight:800}
+
+  header{position:sticky;top:0;z-index:40;background:rgba(12,12,13,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;gap:28px;height:64px}
+  .logo{display:flex;align-items:center;gap:10px;font-family:Oswald;font-weight:700;font-size:19px;text-transform:uppercase;letter-spacing:.02em}
+  .logo b{color:var(--acc);font-weight:700}
+  .logo img{width:34px;height:34px;border-radius:50%;object-fit:cover}
+  .nav nav{display:flex;gap:22px;margin-left:auto;font-weight:500;color:var(--muted)}
+  .nav nav a:hover{color:var(--text)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:999px;font-weight:700;transition:.15s;white-space:nowrap}
+  .btn-acc{background:var(--acc);color:#111}
+  .btn-acc:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(255,58,174,.35)}
+  .btn-ghost{border:1.5px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--text)}
+  .btn-sm{padding:8px 14px;font-size:14px}
+  .me{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600}
+  .me .dot{width:30px;height:30px;border-radius:50%;background:var(--acc2);display:grid;place-items:center;font-weight:800;color:#fff}
+  .badge{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;background:#2b2b30;color:var(--muted)}
+  .badge.acc{background:var(--yel);color:#111}
+  .badge.red{background:var(--acc);color:#111}
+  .badge.ok{background:rgba(61,220,132,.15);color:var(--ok)}
+  .burger{display:none}
+
+  /* hero */
+  .hero{padding:64px 0 72px;border:0;position:relative;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;background:url(assets/faces.jpg) 0 0/356px auto repeat;opacity:.28}
+  .hero-bg:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 8%,rgba(11,11,11,.55) 55%,var(--bg) 100%),linear-gradient(0deg,var(--bg),transparent 40%)}
+  .hero .wrap{position:relative}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+  .brand{display:inline-block;position:relative;background:#000;border-radius:26px;padding:10px 34px 6px 26px;transform:rotate(-2deg);box-shadow:0 0 0 3px #000,0 18px 50px rgba(255,58,174,.18)}
+  .hero h1{font-size:clamp(64px,10vw,140px);font-weight:700;text-transform:uppercase;color:var(--acc);letter-spacing:-.01em;line-height:.95}
+  .lite{position:absolute;right:-26px;top:-14px;transform:rotate(-12deg);font-family:Caveat,cursive;font-weight:700;font-size:38px;line-height:1;color:#2a1a05;background:linear-gradient(135deg,#d9a441,#f5cf73 55%,#b98228);padding:2px 12px 4px;border-radius:4px;box-shadow:0 3px 8px rgba(0,0,0,.5)}
+  .crown{position:absolute;left:38%;top:-46px;width:84px;transform:rotate(-8deg)}
+  .who{font-family:Oswald;font-weight:600;font-size:24px;text-transform:uppercase;margin-top:26px;letter-spacing:.02em}
+  .who span{color:var(--muted);font-weight:500}
+  .hero p.lead{font-size:19px;color:#cfcdc6;margin:22px 0 30px;max-width:520px}
+  .hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .stats{display:flex;gap:28px;margin-top:36px;color:var(--muted);font-size:14px}
+  .stats b{display:block;font-family:Oswald;font-size:22px;color:var(--text)}
+  .next{background:var(--card);border:2px solid var(--acc);border-radius:24px;padding:26px;position:relative}
+  .stk{position:absolute;right:-18px;top:-64px;width:118px;border-radius:12px;transform:rotate(7deg);box-shadow:0 10px 30px rgba(0,0,0,.6);z-index:2}
+  .next:before{content:"";position:absolute;inset:0;border-radius:22px;background:radial-gradient(circle at 100% 0,rgba(255,58,174,.22),transparent 60%);pointer-events:none}
+  .next .k{font-size:13px;font-weight:700;color:var(--acc2);text-transform:uppercase;letter-spacing:.08em}
+  .next .city{font-family:Oswald;font-weight:700;font-size:54px;color:var(--yel);margin:8px 0 4px;text-transform:uppercase}
+  .next .meta{color:#cfcdc6}
+  .next .row{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:12px;flex-wrap:wrap}
+  .live{margin-top:14px;display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;font-size:14px}
+  .live .pulse{width:10px;height:10px;border-radius:50%;background:var(--acc2);box-shadow:0 0 0 0 rgba(255,58,174,.7);animation:p 1.6s infinite}
+  @keyframes p{to{box-shadow:0 0 0 12px rgba(255,58,174,0)}}
+
+  /* afisha */
+  .events{display:flex;flex-direction:column;gap:10px}
+  .ev{display:grid;grid-template-columns:110px 1fr auto;gap:22px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 22px}
+  .ev .d{font-family:Oswald;font-weight:700;font-size:40px;line-height:1;color:var(--yel)}
+  .ev .d small{display:block;font-family:Inter;font-weight:600;font-size:13px;color:var(--muted);margin-top:4px;text-transform:uppercase}
+  .ev h3{font-size:26px;text-transform:uppercase;font-weight:600}
+  .ev .m{color:var(--muted);font-size:14px;margin-top:4px}
+  .ev.past{opacity:.5}
+  .wish{margin-top:22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:linear-gradient(90deg,#1a1a1a,#26101d);border:1.5px dashed var(--acc);border-radius:var(--r);padding:20px 22px}
+  .wish p{flex:1;min-width:240px}
+  .wish input{flex:1;min-width:180px}
+  input,select{background:#111113;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--text);font:inherit;width:100%}
+  input:focus,select:focus{outline:none;border-color:var(--acc)}
+
+  /* catalog */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+  .tab{padding:9px 16px;border-radius:999px;border:1.5px solid var(--line);font-weight:600;font-size:14px;color:var(--muted)}
+  .tab.on{background:var(--acc);color:#111;border-color:var(--acc)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+  .vc{cursor:pointer;border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--line);transition:.15s;display:flex;flex-direction:column}
+  .vc:hover{transform:translateY(-3px);border-color:#444}
+  .vc .th{position:relative;aspect-ratio:16/9;background:#222 center/cover}
+  .vc .th .dur{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.8);font-size:12px;font-weight:700;padding:2px 7px;border-radius:6px}
+  .vc .th .tag{position:absolute;left:8px;top:8px}
+  .vc .th .lock{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.55));display:grid;place-items:center;font-size:30px}
+  .vc .b{padding:14px 16px 16px}
+  .vc .p{font-size:12px;font-weight:700;color:var(--acc);text-transform:uppercase;letter-spacing:.06em}
+  .vc h4{font-size:16px;font-weight:600;margin-top:4px;line-height:1.3}
+  .vc .s{font-size:13px;color:var(--muted);margin-top:6px}
+
+  /* projects */
+  .projects{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .pr{position:relative;overflow:hidden;border-radius:var(--r);padding:22px;min-height:300px;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;border:1px solid var(--line);cursor:pointer;transition:.15s;background:#111 center/cover}
+  .pr:before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.92) 35%,rgba(0,0,0,.15))}
+  .pr>*{position:relative}
+  .pr:hover{transform:translateY(-3px);border-color:var(--acc)}
+  .pr h3{font-size:30px;font-weight:700;text-transform:uppercase;color:var(--yel);line-height:1}
+  .pr h3.hand{font-family:Caveat,cursive;text-transform:none;color:#fff;font-size:36px}
+  .pr.sugar{background:var(--acc)}
+  .pr.sugar:before{background:radial-gradient(circle at 80% 10%,rgba(255,255,255,.25),transparent 50%)}
+  .pr.sugar h3,.pr.sugar p,.pr.sugar .w{color:#111}
+  .pr p{font-size:14px;opacity:.85;margin-top:8px}
+  .pr .w{font-size:13px;font-weight:600;opacity:.8}
+
+  /* tiers */
+  .cur{display:inline-flex;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px;margin-bottom:26px}
+  .cur button{padding:7px 16px;border-radius:999px;font-weight:700;font-size:14px;color:var(--muted)}
+  .cur button.on{background:var(--acc);color:#111}
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .tier{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:26px;display:flex;flex-direction:column}
+  .tier.hot{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
+  .tier h3{font-size:28px;text-transform:uppercase;font-weight:700}
+  .tier .price{font-family:Oswald;font-size:48px;font-weight:700;margin:14px 0 2px}
+  .tier .price small{font-family:Inter;font-size:15px;color:var(--muted);font-weight:500}
+  .tier .q{font-size:14px;color:#cfcdc6;font-style:italic;margin:10px 0 16px}
+  .tier ul{list-style:none;display:flex;flex-direction:column;gap:9px;font-size:14px;margin-bottom:24px;flex:1}
+  .tier li:before{content:"✓";color:var(--acc);font-weight:800;margin-right:8px}
+  .more-tiers{margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .mt{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14px}
+  .mt b{font-family:Oswald;font-size:15px}
+  .compare{margin-top:30px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:14px}
+  .compare div{background:var(--bg2);border-radius:14px;padding:16px;border:1px solid var(--line)}
+  .compare b{display:block;font-family:Oswald;font-size:32px;color:var(--yel);margin-bottom:2px}
+
+  /* faq */
+  details{border-bottom:1px solid var(--line);padding:18px 0}
+  summary{cursor:pointer;font-weight:600;font-size:17px;list-style:none;display:flex;justify-content:space-between}
+  summary:after{content:"+";color:var(--acc);font-weight:800}
+  details[open] summary:after{content:"–"}
+  details p{color:#cfcdc6;margin-top:10px;max-width:760px}
+
+  footer{border-top:1px solid var(--line);padding:40px 0 90px;color:var(--muted);font-size:14px}
+  .soc{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+  .soc a{padding:8px 14px;border:1px solid var(--line);border-radius:999px;color:var(--text);font-weight:600}
+  .soc a:hover{border-color:var(--acc);color:var(--acc)}
+  .foot{display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+  .foot img{width:92px;height:92px;border-radius:50%}
+
+  /* modal */
+  .ov{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:80;display:none;align-items:center;justify-content:center;padding:20px}
+  .ov.on{display:flex}
+  .md{background:var(--bg2);border:1px solid var(--line);border-radius:24px;width:100%;max-width:520px;max-height:92vh;overflow:auto;position:relative;padding:28px}
+  .md.wide{max-width:980px;padding:0;background:#000}
+  .x{position:absolute;right:14px;top:12px;font-size:26px;color:var(--muted);z-index:3}
+  .md h3{font-size:24px;text-transform:uppercase;margin-bottom:6px}
+  .md .f{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+  .pm{display:flex;flex-direction:column;gap:8px}
+  .pm label{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer}
+  .pm label:has(input:checked){border-color:var(--acc)}
+  .pm input{width:auto;margin-top:4px;accent-color:var(--acc)}
+  .pm small{display:block;color:var(--muted);font-size:13px}
+  .sum{display:flex;justify-content:space-between;font-weight:700;padding:12px 0;border-top:1px solid var(--line);margin-top:4px}
+  .note{font-size:12px;color:var(--muted)}
+
+  /* player */
+  .player{position:relative;aspect-ratio:16/9;background:#000 center/cover;border-radius:24px 24px 0 0;overflow:hidden}
+  .player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .player .shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.85),rgba(0,0,0,0) 45%)}
+  .player .big{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:84px;height:84px;border-radius:50%;background:var(--acc);color:#111;font-size:30px;display:grid;place-items:center}
+  .player.playing .big{opacity:0}
+  .ctrl{position:absolute;left:0;right:0;bottom:0;padding:14px 18px;display:flex;align-items:center;gap:14px;font-size:14px;font-weight:600}
+  .bar{flex:1;height:5px;background:rgba(255,255,255,.25);border-radius:5px;position:relative;cursor:pointer}
+  .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--acc);border-radius:5px;width:0}
+  .ctrl button{padding:4px 8px;border-radius:8px;background:rgba(255,255,255,.12);font-size:13px}
+  .player.audio{background-image:none!important;background:radial-gradient(circle at 30% 30%,#3a2a10,#0c0c0d)}
+  .player .wave{display:none;position:absolute;inset:0;align-items:center;justify-content:center;gap:5px}
+  .player.audio .wave{display:flex}
+  .wave span{width:6px;border-radius:3px;background:var(--acc);height:20px}
+  .player.audio.playing .wave span{animation:w 1s ease-in-out infinite}
+  @keyframes w{50%{height:70px}}
+  .pay{position:absolute;inset:0;background:rgba(8,8,9,.82);backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:10px}
+  .pay h3{font-size:26px;text-transform:uppercase}
+  .pinfo{padding:22px 26px 26px;background:var(--bg2);border-radius:0 0 24px 24px}
+  .pinfo .row{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}
+
+  .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:var(--ok);color:#06210f;font-weight:700;padding:12px 20px;border-radius:999px;opacity:0;transition:.25s;z-index:99;pointer-events:none}
+  .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  .demo{position:fixed;right:16px;bottom:16px;z-index:70;background:#fff;color:#111;border-radius:16px;padding:10px 12px;font-size:12px;font-weight:600;box-shadow:0 10px 40px rgba(0,0,0,.5);display:flex;gap:6px;align-items:center;flex-wrap:wrap;max-width:calc(100vw - 32px)}
+  .demo button{padding:6px 10px;border-radius:10px;background:#eee;font-weight:700}
+  .demo button.on{background:#111;color:#fff}
+
+  @media (max-width:900px){
+    .hero-grid,.tiers,.more-tiers,.compare{grid-template-columns:minmax(0,1fr)}
+    .projects{grid-template-columns:1fr 1fr}
+    .nav nav{display:none}
+    .ev{grid-template-columns:80px 1fr}
+    .ev .act{grid-column:1/-1}
+    .stats{flex-wrap:wrap}
+  }
+  @media (max-width:520px){
+    .projects{grid-template-columns:1fr}.logo span{display:none}
+    .hero-grid>*{min-width:0}
+    .hero .cta .btn{white-space:normal;text-align:center;width:100%}
+    .next .city{font-size:40px}
+    .stk{right:6px;width:92px;top:-50px}
+    .wish input{max-width:none!important}
+    .md{padding:22px}
+  }
+</style>
+</head>
+<body>
+
+<div class="proto"><b>Прототип.</b> Оплата, вход и закрытые видео здесь не настоящие. Переключай режим «Гость / Спонсор / Папик» внизу справа.</div>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="logo"><img src="assets/avatar.jpg" alt=""><span><b>Shirokov</b> Lite</span></a>
+    <nav>
+      <a href="#afisha">Афиша</a>
+      <a href="#watch">Смотреть</a>
+      <a href="#projects">Проекты</a>
+      <a href="#support">Подписка</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div id="authSlot"></div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="brand"><svg class="crown" viewBox="0 0 100 60" fill="none" stroke="#ff3aae" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 50 L14 14 L34 36 L50 6 L66 36 L86 12 L92 50 Z"/><path d="M10 56 C35 53, 65 58, 92 54"/></svg><h1>Shirokov</h1><span class="lite">LiTE</span></div>
+      <div class="who">Костя Широков <span>· стендап, подкасты, стримы</span></div>
+      <p class="lead">Здесь собрано всё: билеты на концерты, полные версии выпусков и подписка без Патреона.</p>
+      <div class="cta">
+        <a href="#afisha" class="btn btn-acc">Билеты на концерты</a>
+        <a href="#support" class="btn btn-ghost">Поддержать и смотреть полные версии</a>
+      </div>
+      <div class="stats">
+        <div><b>26,5K</b>на YouTube</div>
+        <div><b>7,5K</b>в Telegram</div>
+        <div><b>9,4M</b>просмотров</div>
+      </div>
+    </div>
+    <div>
+      <div class="next">
+        <img class="stk" src="assets/sticker.jpg" alt="">
+        <div class="k">Ближайший концерт</div>
+        <div class="city">Барселона</div>
+        <div class="meta">9 декабря, 20:00 · Street Fries Kitchen<br>«Серьёзный разговор»: импровизационный стендап, будет съёмка</div>
+        <div class="row">
+          <div><span class="badge acc">от €20</span></div>
+          <button class="btn btn-acc" onclick="openTicket('bcn')">Купить билет</button>
+        </div>
+      </div>
+      <a class="live" href="https://www.youtube.com/live/Zuh16_JSfQ8" target="_blank" rel="noopener">
+        <span class="pulse"></span>
+        <span><b>Стримы</b> на YouTube и Kick, обычно в 20:08 по мск (18:08 CET). Анонс за пару часов в Telegram.</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- AFISHA -->
+<section id="afisha">
+  <div class="wrap">
+    <h2>Афиша</h2>
+    <p class="sub">Билеты продаются прямо здесь, без перехода на чужие площадки. Покупка за минуту, билет с QR-кодом приходит на почту.</p>
+    <div class="events" id="events"></div>
+    <div class="wish">
+      <p><b>Нет твоего города?</b> Оставь почту: напишу первым, когда откроются продажи рядом с тобой.</p>
+      <input placeholder="Город" id="wCity" style="max-width:200px">
+      <input placeholder="Почта" id="wMail" type="email" style="max-width:260px">
+      <button class="btn btn-acc" onclick="toast('Готово! Напишем, когда будет концерт в твоём городе')">Хочу концерт</button>
+    </div>
+  </div>
+</section>
+
+<!-- WATCH -->
+<section id="watch">
+  <div class="wrap">
+    <h2>Смотреть</h2>
+    <p class="sub">Бесплатные выпуски открываются сразу. Полные и несмонтированные версии доступны по подписке, в своём плеере, без рекламы, их можно слушать как подкаст.</p>
+    <div class="tabs" id="tabs"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="wrap">
+    <h2>Проекты</h2>
+    <p class="sub">Всё, что выходит регулярно.</p>
+    <div class="projects">
+      <div class="pr" style="background-image:url(https://i.ytimg.com/vi/KdrwC9_RcFA/hqdefault.jpg)" onclick="filterTo('2s')"><div><h3>В два ствола</h3><p>Подкаст с Дмитрием Колыбелкиным и гостями: про культы, Ватикан, ограбления и Николаса Кейджа.</p></div><div class="w">Полные версии у Спонсоров →</div></div>
+      <div class="pr" style="background-image:url(https://i.ytimg.com/vi/JgRD0eCiFic/hqdefault.jpg)" onclick="filterTo('dp')"><div><h3 class="hand">Друзья по переписке</h3><p>С Идраком Мирзализаде. Читаем письма, решаем проблемы.</p></div><div class="w">Полные версии у Спонсоров →</div></div>
+      <div class="pr" style="background-image:url(https://i.ytimg.com/vi/tL54canqZkc/hqdefault.jpg)" onclick="filterTo('sr')"><div><h3>Серьёзный разговор</h3><p>Импровизационный стендап с залом. Каждый концерт снимается.</p></div><div class="w">Полные версии у Спонсоров →</div></div>
+      <div class="pr sugar" onclick="filterTo('sugar')"><div><h3>SugarPodcast</h3><p>Только для Папиков. Что там, знают только Папики.</p></div><div class="w">Уровень «Папик» →</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORT -->
+<section id="support">
+  <div class="wrap">
+    <h2>Подписка</h2>
+    <p class="sub">Те же уровни, что на Бусти и Патреоне, только деньги идут напрямую. Оплата любой картой, отмена в один клик.</p>
+    <div class="cur" id="cur">
+      <button data-c="EUR" class="on">€ EUR</button>
+      <button data-c="RUB">₽ RUB</button>
+    </div>
+    <div class="tiers" id="tiers"></div>
+    <div class="more-tiers" id="moreTiers"></div>
+    <div class="compare">
+      <div><b>~10%</b>забирает Патреон с каждой подписки плюс комиссия PayPal на вывод</div>
+      <div><b>~3–4%</b>комиссия платёжной системы на своём сайте</div>
+      <div><b>1 место</b>для всего: билеты, видео, подписка, анонсы стримов</div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <h2>FAQ</h2>
+    <details><summary>Я уже подписан на Бусти или Патреон. Что делать?</summary><p>Ничего не теряешь: подписка там продолжает работать. Если захочешь перейти сюда, войди по той же почте, и мы перенесём твой уровень без двойной оплаты.</p></details>
+    <details><summary>Какими картами можно платить?</summary><p>Visa, Mastercard, Apple Pay и Google Pay любого зарубежного банка. Оплата российскими картами — отдельный вопрос, его решаем.</p></details>
+    <details><summary>Как отменить подписку?</summary><p>В личном кабинете, одной кнопкой. Доступ остаётся до конца оплаченного периода.</p></details>
+    <details><summary>Билет не пришёл на почту</summary><p>Проверь «Спам», а потом открой личный кабинет: там лежат все твои билеты. Не нашёл — напиши в поддержку, ответим в течение дня.</p></details>
+    <details><summary>Можно скачать выпуск и слушать офлайн?</summary><p>Полные версии можно слушать как подкаст: в плеере есть режим «Только звук», а в кабинете — личная RSS-ссылка для любого подкаст-приложения.</p></details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <img src="assets/avatar.jpg" alt="">
+    <div>
+    <div class="soc">
+      <a href="https://www.youtube.com/@shirokovlite" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://t.me/shirokovtut" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://kick.com/shirokovlite" target="_blank" rel="noopener">Kick</a>
+      <a href="https://www.instagram.com/shirokovofficial/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://boosty.to/shirokovlite" target="_blank" rel="noopener">Boosty</a>
+      <a href="https://www.patreon.com/funny_stuff" target="_blank" rel="noopener">Patreon</a>
+    </div>
+    <div>Письма в рубрику «Дорогая редакция» · Поддержка · Оферта · Политика конфиденциальности</div>
+    <div style="margin-top:8px">© 2026 Костя Широков</div>
+    </div>
+  </div>
+</footer>
+
+<!-- MODALS -->
+<div class="ov" id="ov" onclick="if(event.target===this)closeM()"><div class="md" id="md"></div></div>
+<div class="toast" id="toast"></div>
+
+<div class="demo">
+  Демо-режим:
+  <button data-r="guest">Гость</button>
+  <button data-r="sponsor">Спонсор</button>
+  <button data-r="papik">Папик</button>
+</div>
+
+<script>
+const AV='assets/avatar.jpg';
+const th=id=>`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+const PROJ={'2s':'В два ствола','dp':'Друзья по переписке','sr':'Серьёзный разговор','sugar':'SugarPodcast'};
+
+const EVENTS=[
+  {id:'bcn',d:'09',m:'дек',city:'Барселона',venue:'Street Fries Kitchen · Carrer d\'Ausiàs Marc, 19',time:'20:00, двери с 19:40',show:'Серьёзный разговор · будет съёмка',price:20,cur:'€'},
+  {id:'pl',d:'11–15',m:'ноя',city:'Польша, тур',venue:'Несколько городов',time:'',show:'Серьёзный разговор · съёмка в каждом городе',past:true},
+];
+
+const VIDEOS=[
+  {id:'JgRD0eCiFic',p:'dp',t:'Носочный маньяк',dur:'1:18:40',v:'127 тыс.',ago:'5 дн. назад'},
+  {id:'JgRD0eCiFic',p:'dp',t:'Носочный маньяк — полная версия',dur:'2:10:00',lvl:'sponsor',note:'На 50 минут длиннее, чем на YouTube'},
+  {id:'KdrwC9_RcFA',p:'2s',t:'В два ствола — та самая трёхчасовая версия',dur:'~3:00:00',lvl:'sponsor',note:'Не поняли, как это монтировать, поэтому выложили целиком',audio:true},
+  {id:'9emCsqO6G0Q',p:'sr',t:'Гуру личностного роста',dur:'52:22',v:'91 тыс.',ago:'1 мес. назад'},
+  {id:'oe3HQlooApE',p:'sugar',t:'SugarPodcast — новый выпуск',dur:'аудио',lvl:'papik',note:'Только для Папиков',audio:true,dark:true},
+  {id:'oe3HQlooApE',p:'dp',t:'Женщины охотницы',dur:'59:20',v:'169 тыс.',ago:'1 мес. назад'},
+  {id:'KdrwC9_RcFA',p:'2s',t:'Вы не поняли Колобка',dur:'1:04:20',v:'105 тыс.',ago:'1 мес. назад'},
+  {id:'9emCsqO6G0Q',p:'sr',t:'Гуру личностного роста — полная версия',dur:'полная',lvl:'sponsor',note:'Без вырезанных кусков'},
+  {id:'JJ9YqrzZNOg',p:'2s',t:'Интервью Дудю',dur:'51:10',v:'101 тыс.',ago:'2 мес. назад'},
+  {id:'VZO1104LyEU',p:'2s',t:'Мормоны — самый богатый культ',dur:'1:12:28',v:'70 тыс.',ago:'4 мес. назад'},
+  {id:'COvR_JrNm1s',p:'sr',t:'Жалость и стыд',dur:'51:15',v:'62 тыс.',ago:'5 мес. назад'},
+  {id:'NXljp3yLzIk',p:'dp',t:'Раскрепощённые родители',dur:'1:11:05',v:'137 тыс.',ago:'5 мес. назад'},
+  {id:'tL54canqZkc',p:'sr',t:'К звёздам',dur:'52:15',v:'79 тыс.',ago:'6 мес. назад'},
+  {id:'pjw7pQYogz8',p:'dp',t:'Вопросы снизу',dur:'1:28:45',v:'149 тыс.',ago:'7 мес. назад'},
+  {id:'ngFetbagusA',p:'2s',t:'Тайны Ватикана',dur:'1:10:35',v:'77 тыс.',ago:'6 мес. назад'},
+];
+
+const TIERS=[
+  {k:'friend',n:'Дружеская поддержка',EUR:1.19,RUB:100,q:'«Я пока не могу предложить вам ничего супер эксклюзивного… Но если есть желание, поддержите»',f:['Просто поддержать','Доступ к сообществу подписчиков']},
+  {k:'sponsor',n:'Спонсор',EUR:6,RUB:500,hot:true,q:'«Ты именно тот, на кого я рассчитываю»',f:['Полные версии «В два ствола»','Полные «Серьёзные разговоры»','Полные «Друзья по переписке»','Эксклюзивные материалы','Режим «только звук» и личная RSS-лента']},
+  {k:'papik',n:'Папик',EUR:17.9,RUB:1500,q:'«Обязательно буду благодарить тебя на каждом стриме!»',f:['Всё, что у Спонсора','SugarPodcast','Благодарность на каждом стриме']},
+];
+const MORE=[
+  {n:'Покровитель',EUR:36,RUB:3000},{n:'Меценат',EUR:119,RUB:10000},{n:'Единственный',EUR:594,RUB:50000},
+];
+const RANK={guest:0,friend:1,sponsor:2,papik:3};
+const NAMES={guest:'Гость',friend:'Дружеская поддержка',sponsor:'Спонсор',papik:'Папик'};
+
+let role=localStorage.getItem('ks_role')||'guest';
+let cur='EUR', filter='all', tickets=JSON.parse(localStorage.getItem('ks_t')||'[]');
+const $=s=>document.querySelector(s);
+const money=(v,c)=>c==='EUR'?'€'+(v%1?v.toFixed(2).replace('.',','):v):v.toLocaleString('ru-RU')+' ₽';
+
+function setRole(r){role=r;localStorage.setItem('ks_role',r);renderAll();}
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),2600);}
+
+function renderAuth(){
+  $('#authSlot').innerHTML = role==='guest'
+    ? `<button class="btn btn-acc btn-sm" onclick="openLogin()">Войти</button>`
+    : `<button class="me" onclick="openAccount()"><span class="dot">Д</span><span>Кабинет</span> <span class="badge acc">${NAMES[role]}</span></button>`;
+  document.querySelectorAll('.demo button').forEach(b=>b.classList.toggle('on',b.dataset.r===role));
+}
+function renderEvents(){
+  $('#events').innerHTML=EVENTS.map(e=>`
+    <div class="ev ${e.past?'past':''}">
+      <div class="d">${e.d}<small>${e.m} 2026</small></div>
+      <div><h3>${e.city}</h3><div class="m">${e.venue}${e.time?' · '+e.time:''}</div><div class="m">${e.show}</div></div>
+      <div class="act">${e.past?'<span class="badge">Прошёл</span>':`<span class="badge acc" style="margin-right:10px">от ${e.cur}${e.price}</span><button class="btn btn-acc btn-sm" onclick="openTicket('${e.id}')">Купить</button>`}</div>
+    </div>`).join('');
+}
+function renderTabs(){
+  const t=[['all','Всё'],['paid','Только полные версии'],...Object.entries(PROJ)];
+  $('#tabs').innerHTML=t.map(([k,n])=>`<button class="tab ${filter===k?'on':''}" onclick="filter='${k}';renderTabs();renderGrid()">${n}</button>`).join('');
+}
+function renderGrid(){
+  const list=VIDEOS.filter(v=>filter==='all'||(filter==='paid'?v.lvl:v.p===filter));
+  $('#grid').innerHTML=list.map((v,i)=>{
+    const idx=VIDEOS.indexOf(v), locked=v.lvl&&RANK[role]<RANK[v.lvl];
+    const tag=v.lvl?`<span class="badge ${v.lvl==='papik'?'red':'acc'} tag">${v.lvl==='papik'?'Папик':'Спонсор'}</span>`:`<span class="badge tag">Бесплатно</span>`;
+    return `<div class="vc" onclick="openPlayer(${idx})">
+      <div class="th" style="background-image:url(${th(v.id)});${v.dark?'filter:grayscale(.6) brightness(.6)':''}">${tag}<span class="dur">${v.dur}</span>${locked?'<div class="lock">🔒</div>':''}</div>
+      <div class="b"><div class="p">${PROJ[v.p]}</div><h4>${v.t}</h4><div class="s">${v.lvl?(v.note||''):v.v+' просмотров · '+v.ago}</div></div>
+    </div>`}).join('');
+}
+function filterTo(k){filter=k;renderTabs();renderGrid();location.hash='#watch';}
+function renderTiers(){
+  document.querySelectorAll('#cur button').forEach(b=>b.classList.toggle('on',b.dataset.c===cur));
+  $('#tiers').innerHTML=TIERS.map(t=>{
+    const mine=role===t.k;
+    return `<div class="tier ${t.hot?'hot':''}">
+      ${t.hot?'<div><span class="badge acc">Чаще всего выбирают</span></div>':''}
+      <h3 style="margin-top:${t.hot?'12px':'0'}">${t.n}</h3>
+      <div class="price">${money(t[cur],cur)}<small> / мес</small></div>
+      <div class="q">${t.q}</div>
+      <ul>${t.f.map(x=>`<li>${x}</li>`).join('')}</ul>
+      ${mine?'<button class="btn btn-ghost" onclick="openAccount()">Твой уровень ✓</button>':`<button class="btn ${t.hot?'btn-acc':'btn-ghost'}" onclick="openCheckout('${t.k}')">Оформить</button>`}
+    </div>`}).join('');
+  $('#moreTiers').innerHTML=MORE.map(t=>`<div class="mt"><span>${t.n}</span><b>${money(t[cur],cur)}</b><button class="btn btn-ghost btn-sm" onclick="openCheckout('papik','${t.n}',${t.EUR},${t.RUB})">Выбрать</button></div>`).join('');
+}
+function renderAll(){renderAuth();renderEvents();renderTabs();renderGrid();renderTiers();}
+
+/* modals */
+function openM(html,wide){const m=$('#md');m.className='md'+(wide?' wide':'');m.innerHTML='<button class="x" onclick="closeM()">×</button>'+html;$('#ov').classList.add('on');}
+function closeM(){$('#ov').classList.remove('on');$('#md').innerHTML='';clearInterval(window._pl);}
+
+function openLogin(after){
+  openM(`<h3>Вход</h3><p class="sub" style="margin:0">Без паролей: пришлём ссылку на почту. Если ты уже подписан на Бусти или Патреон, используй ту же почту.</p>
+  <div class="f"><input type="email" placeholder="Почта" id="lm"><button class="btn btn-acc" onclick="fakeLogin()">Получить ссылку для входа</button>
+  <div class="note">В прототипе вход происходит сразу.</div></div>`);
+}
+function fakeLogin(){closeM();setRole('friend');toast('Ты вошёл. Демо-уровень: Дружеская поддержка');}
+
+function payMethods(){
+  return `<div class="pm">
+    <label><input type="radio" name="pm" checked><div>Банковская карта<small>Visa, Mastercard любого зарубежного банка</small></div></label>
+    <label><input type="radio" name="pm"><div>Apple Pay / Google Pay</div></label>
+    <label><input type="radio" name="pm"><div>Российская карта<small>Отдельный провайдер, в прототипе для примера</small></div></label>
+  </div>`;
+}
+function openCheckout(k,label,eur,rub){
+  const t=TIERS.find(x=>x.k===k); const n=label||t.n; const price=label?(cur==='EUR'?eur:rub):t[cur];
+  openM(`<h3>${n}</h3><p class="sub" style="margin:0">${money(price,cur)} в месяц. Отменить можно в любой момент.</p>
+  <div class="f">${role==='guest'?'<input type="email" placeholder="Почта (на неё придёт доступ)">':''}
+  ${payMethods()}
+  <div class="sum"><span>Сегодня к оплате</span><span>${money(price,cur)}</span></div>
+  <button class="btn btn-acc" onclick="closeM();setRole('${k}');toast('Готово! Ты ${n}. Полные версии открыты')">Оплатить (демо)</button>
+  <div class="note">Настоящая оплата пойдёт через платёжного провайдера (например, Stripe): данные карты не хранятся на сайте.</div></div>`);
+}
+function openTicket(id){
+  const e=EVENTS.find(x=>x.id===id); let q=1;
+  openM(`<h3>${e.city} · ${e.d} ${e.m}</h3><p class="sub" style="margin:0">${e.venue}<br>${e.time}</p>
+  <div class="f">
+    <div style="display:flex;justify-content:space-between;align-items:center;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px">
+      <div><b>Стандарт</b><div class="note">${e.cur}${e.price} за билет</div></div>
+      <div style="display:flex;gap:10px;align-items:center"><button class="btn btn-ghost btn-sm" onclick="tq(-1)">−</button><b id="tq">1</b><button class="btn btn-ghost btn-sm" onclick="tq(1)">+</button></div>
+    </div>
+    <input type="email" placeholder="Почта для билетов">
+    ${payMethods()}
+    <div class="sum"><span>Итого</span><span id="tsum">${e.cur}${e.price}</span></div>
+    <button class="btn btn-acc" onclick="buyTicket('${id}')">Оплатить (демо)</button>
+    <div class="note">После оплаты билет с QR-кодом придёт на почту и появится в кабинете.</div>
+  </div>`);
+  window.tq=d=>{q=Math.max(1,Math.min(10,q+d));$('#tq').textContent=q;$('#tsum').textContent=e.cur+(e.price*q);window._q=q;};window._q=1;
+}
+function buyTicket(id){
+  const e=EVENTS.find(x=>x.id===id);tickets.push({city:e.city,d:e.d+' '+e.m,q:window._q||1});localStorage.setItem('ks_t',JSON.stringify(tickets));
+  if(role==='guest')setRole('friend');
+  openM(`<div style="text-align:center"><div style="font-size:56px">🎟️</div><h3>Билет у тебя</h3><p class="sub" style="margin:8px auto 20px">${e.city}, ${e.d} ${e.m}, ${e.time}. QR-код отправили на почту (в демо — нет).</p>
+  <div style="background:#fff;width:150px;height:150px;margin:0 auto 20px;border-radius:12px;display:grid;place-items:center;color:#111;font-weight:800">QR</div>
+  <button class="btn btn-acc" onclick="closeM()">Отлично</button></div>`);
+}
+
+function openAccount(){
+  const next=new Date(Date.now()+30*864e5).toLocaleDateString('ru-RU',{day:'numeric',month:'long'});
+  const t=TIERS.find(x=>x.k===role);
+  openM(`<h3>Личный кабинет</h3>
+  <div class="f">
+    <div style="background:var(--card);border-radius:14px;padding:16px">
+      <div class="note">Подписка</div><div style="font-weight:700;font-size:18px">${NAMES[role]} <span class="badge ok">активна</span></div>
+      <div class="note" style="margin-top:4px">${t?money(t.EUR,'EUR')+' / мес · ':''}следующее списание ${next}</div>
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+        <a href="#support" onclick="closeM()" class="btn btn-ghost btn-sm">Сменить уровень</a>
+        <button class="btn btn-ghost btn-sm" onclick="toast('В проде: смена карты через платёжного провайдера')">Сменить карту</button>
+        <button class="btn btn-ghost btn-sm" onclick="closeM();setRole('guest');toast('Подписка отменена (демо)')">Отменить</button>
+      </div>
+    </div>
+    <div style="background:var(--card);border-radius:14px;padding:16px">
+      <div class="note">Мои билеты</div>
+      ${tickets.length?tickets.map(x=>`<div style="display:flex;justify-content:space-between;margin-top:8px"><span>${x.city}, ${x.d}</span><b>${x.q} шт · QR</b></div>`).join(''):'<div style="margin-top:6px">Пока нет. <a href="#afisha" onclick="closeM()" style="color:var(--acc)">Афиша →</a></div>'}
+    </div>
+    <div style="background:var(--card);border-radius:14px;padding:16px">
+      <div class="note">Слушать в подкаст-приложении</div>
+      <div style="font-family:monospace;font-size:13px;margin-top:6px;word-break:break-all">https://shirokov.site/rss/p_8f3k2…</div>
+      <button class="btn btn-ghost btn-sm" style="margin-top:10px" onclick="toast('Личная RSS-ссылка скопирована (демо)')">Скопировать личную RSS-ссылку</button>
+    </div>
+    <div style="background:var(--card);border-radius:14px;padding:16px">
+      <div class="note">Переезд</div><div>Был подписан на Бусти или Патреон? Перенесём уровень без двойной оплаты.</div>
+      <button class="btn btn-ghost btn-sm" style="margin-top:10px" onclick="toast('Заявка на перенос отправлена (демо)')">Перенести подписку</button>
+    </div>
+  </div>`);
+}
+
+function openPlayer(i){
+  const v=VIDEOS[i];
+  if(!v.lvl){
+    openM(`<div class="player"><iframe src="https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+    <div class="pinfo"><div class="row"><div><div class="p" style="color:var(--acc);font-size:12px;font-weight:700;text-transform:uppercase">${PROJ[v.p]}</div><h3 style="font-size:22px;text-transform:none;margin-top:4px">${v.t}</h3><div class="note">${v.v} просмотров на YouTube · ${v.ago}</div></div>
+    ${VIDEOS.some(x=>x.lvl&&x.id===v.id)?`<button class="btn btn-acc" onclick="openPlayer(${VIDEOS.findIndex(x=>x.lvl&&x.id===v.id)})">Смотреть полную версию</button>`:''}</div></div>`,true);
+    return;
+  }
+  const locked=RANK[role]<RANK[v.lvl];
+  const need=v.lvl==='papik'?'Папик':'Спонсор';
+  openM(`<div class="player ${v.audio?'audio':''}" id="pl" style="background-image:url(${th(v.id)})">
+      <div class="wave">${Array.from({length:24},(_,k)=>`<span style="animation-delay:${(k%8)*.1}s"></span>`).join('')}</div>
+      <div class="shade"></div>
+      ${locked?'':`<button class="big" onclick="togglePlay()">▶</button>
+      <div class="ctrl"><button onclick="togglePlay()" id="pp">▶</button><span id="tc">0:00</span><div class="bar" onclick="seek(event)"><i id="bi"></i></div><span>${v.dur}</span>
+      <button onclick="spd(this)">1×</button><button onclick="aud()">${v.audio?'🎬 Видео':'🎧 Только звук'}</button><button onclick="toast('Качество: авто / 1080p / 720p')">HD</button></div>`}
+      ${locked?`<div class="pay"><div style="font-size:40px">🔒</div><h3>Это для уровня «${need}»</h3><p class="note" style="font-size:15px;max-width:420px">${v.note||''}. Оформи подписку, и выпуск откроется сразу, вместе со всеми полными версиями.</p>
+        <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;justify-content:center"><button class="btn btn-acc" onclick="openCheckout('${v.lvl}')">Стать ${need==='Папик'?'Папиком':'Спонсором'} · ${money(TIERS.find(t=>t.k===v.lvl)[cur],cur)}/мес</button>${role==='guest'?'<button class="btn btn-ghost" onclick="openLogin()">Я уже подписан</button>':''}</div></div>`:''}
+    </div>
+    <div class="pinfo"><div class="row"><div><div class="p" style="color:var(--acc);font-size:12px;font-weight:700;text-transform:uppercase">${PROJ[v.p]} · <span class="badge ${v.lvl==='papik'?'red':'acc'}">${need}</span></div><h3 style="font-size:22px;text-transform:none;margin-top:6px">${v.t}</h3><div class="note">${v.note||''}</div></div>
+    ${locked?'':'<span class="note">Свой плеер: без рекламы, ссылку нельзя переслать без подписки</span>'}</div></div>`,true);
+  let t=0,on=false,sp=1;const total=7800;
+  window.togglePlay=()=>{on=!on;$('#pl').classList.toggle('playing',on);$('#pp').textContent=on?'❚❚':'▶';clearInterval(window._pl);if(on)window._pl=setInterval(()=>{t+=sp*20;if(t>total)t=total;$('#bi').style.width=(t/total*100)+'%';$('#tc').textContent=fmt(t);},1000);};
+  window.seek=e=>{const r=e.currentTarget.getBoundingClientRect();t=(e.clientX-r.left)/r.width*total;$('#bi').style.width=(t/total*100)+'%';$('#tc').textContent=fmt(t);};
+  window.spd=b=>{sp=sp===1?1.5:sp===1.5?2:1;b.textContent=sp+'×';};
+  window.aud=()=>{$('#pl').classList.toggle('audio');};
+}
+const fmt=s=>{s=Math.floor(s);const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return (h?h+':':'')+String(m).padStart(h?2:1,'0')+':'+String(x).padStart(2,'0');};
+
+document.querySelectorAll('.demo button').forEach(b=>b.onclick=()=>{setRole(b.dataset.r);toast('Режим: '+NAMES[b.dataset.r]);});
+document.querySelectorAll('#cur button').forEach(b=>b.onclick=()=>{cur=b.dataset.c;renderTiers();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+renderAll();
+</script>
+</body>
+</html>
