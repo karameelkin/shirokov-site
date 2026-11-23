@@ -131,9 +131,9 @@
   .pr:hover{transform:translateY(-3px);border-color:var(--acc)}
   .pr h3{font-size:30px;font-weight:700;text-transform:uppercase;color:var(--yel);line-height:1}
   .pr h3.hand{font-family:Caveat,cursive;text-transform:none;color:#fff;font-size:36px}
-  .pr.sugar{background:var(--acc)}
-  .pr.sugar:before{background:radial-gradient(circle at 80% 10%,rgba(255,255,255,.25),transparent 50%)}
-  .pr.sugar h3,.pr.sugar p,.pr.sugar .w{color:#111}
+  .pr.sugar{background:#0b0b0b url(assets/sugarpodcast.jpg) top center/100% auto no-repeat;border-color:var(--acc)}
+  .pr.sugar:before{background:linear-gradient(0deg,rgba(0,0,0,.95) 45%,rgba(0,0,0,0) 75%)}
+  .pr.sugar h3{color:var(--acc)}
   .pr p{font-size:14px;opacity:.85;margin-top:8px}
   .pr .w{font-size:13px;font-weight:600;opacity:.8}
 
@@ -416,7 +416,7 @@ const VIDEOS=[
   {id:'JgRD0eCiFic',p:'dp',t:'Носочный маньяк — полная версия',dur:'2:10:00',lvl:'sponsor',note:'На 50 минут длиннее, чем на YouTube'},
   {id:'KdrwC9_RcFA',p:'2s',t:'В два ствола — та самая трёхчасовая версия',dur:'~3:00:00',lvl:'sponsor',note:'Не поняли, как это монтировать, поэтому выложили целиком',audio:true},
   {id:'9emCsqO6G0Q',p:'sr',t:'Гуру личностного роста',dur:'52:22',v:'91 тыс.',ago:'1 мес. назад'},
-  {id:'oe3HQlooApE',p:'sugar',t:'SugarPodcast — новый выпуск',dur:'аудио',lvl:'papik',note:'Только для Папиков',audio:true,dark:true},
+  {id:'oe3HQlooApE',img:'assets/sugarpodcast.jpg',p:'sugar',t:'SugarPodcast — «Ночные мысли»',dur:'аудио',lvl:'papik',note:'Только для Папиков',audio:true},
   {id:'oe3HQlooApE',p:'dp',t:'Женщины охотницы',dur:'59:20',v:'169 тыс.',ago:'1 мес. назад'},
   {id:'KdrwC9_RcFA',p:'2s',t:'Вы не поняли Колобка',dur:'1:04:20',v:'105 тыс.',ago:'1 мес. назад'},
   {id:'9emCsqO6G0Q',p:'sr',t:'Гуру личностного роста — полная версия',dur:'полная',lvl:'sponsor',note:'Без вырезанных кусков'},
@@ -483,7 +483,7 @@ function renderGrid(){
     const idx=VIDEOS.indexOf(v), locked=v.lvl&&RANK[role]<RANK[v.lvl];
     const tag=v.lvl?`<span class="badge ${v.lvl==='papik'?'red':'acc'} tag">${v.lvl==='papik'?'Папик':'Спонсор'}</span>`:`<span class="badge tag">Бесплатно</span>`;
     return `<div class="vc" onclick="openPlayer(${idx})">
-      <div class="th" style="background-image:url(${th(v.id)});${v.dark?'filter:grayscale(.6) brightness(.6)':''}">${tag}<span class="dur">${v.dur}</span>${locked?'<div class="lock">🔒</div>':''}</div>
+      <div class="th" style="background-image:url(${v.img||th(v.id)});${v.dark?'filter:grayscale(.6) brightness(.6)':''}">${tag}<span class="dur">${v.dur}</span>${locked?'<div class="lock">🔒</div>':''}</div>
       <div class="b"><div class="p">${PROJ[v.p]}</div><h4>${v.t}</h4><div class="s">${v.lvl?(v.note||''):v.v+' просмотров · '+v.ago}</div></div>
     </div>`}).join('');
 }
@@ -595,7 +595,7 @@ function openPlayer(i){
   }
   const locked=RANK[role]<RANK[v.lvl];
   const need=v.lvl==='papik'?'Папик':'Спонсор';
-  openM(`<div class="player ${v.audio?'audio':''}" id="pl" style="background-image:url(${th(v.id)})">
+  openM(`<div class="player ${v.audio?'audio':''}" id="pl" style="background-image:url(${v.img||th(v.id)})">
       <div class="wave">${Array.from({length:24},(_,k)=>`<span style="animation-delay:${(k%8)*.1}s"></span>`).join('')}</div>
       <div class="shade"></div>
       ${locked?'':`<button class="big" onclick="togglePlay()">▶</button>
