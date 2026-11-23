@@ -105,7 +105,7 @@
   .wish p{flex:1;min-width:240px}
   .wishd{margin-top:22px;border:0;padding:0}
   .wishd summary{font-size:15px}
-  .wishd summary:after{content:none}
+  .wishd summary:after,.wishd[open] summary:after{content:none}
   .wishd summary{cursor:pointer;list-style:none;color:var(--acc);font-weight:600}
   .wishd summary::-webkit-details-marker{display:none}
   .wishd[open] summary{margin-bottom:12px}
@@ -158,8 +158,10 @@
   .tier ul{list-style:none;display:flex;flex-direction:column;gap:9px;font-size:14px;margin-bottom:24px;flex:1}
   .tier li:before{content:"✓";color:var(--acc);font-weight:800;margin-right:8px}
   .more-tiers{margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  .mt{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14px}
-  .mt b{font-family:Oswald;font-size:15px}
+  .mt{display:flex;flex-direction:column;align-items:flex-start;gap:10px;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14px}
+  .mt b{font-family:Oswald;font-size:18px}
+  .mt .mh{display:flex;justify-content:space-between;width:100%;font-weight:600;font-size:16px}
+  .mt .mq{font-size:14px;color:#cfcdc6;font-style:italic;flex:1}
   .compare{margin-top:30px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:14px}
   .compare div{background:var(--bg2);border-radius:14px;padding:16px;border:1px solid var(--line)}
   .compare b{display:block;font-family:Oswald;font-size:32px;color:var(--yel);margin-bottom:2px}
@@ -428,7 +430,9 @@ const TIERS=[
   {k:'papik',n:'Папик',EUR:17.9,RUB:1500,q:'«Обязательно буду благодарить тебя на каждом стриме!»',f:['Всё, что у Спонсора','SugarPodcast','Благодарность на каждом стриме']},
 ];
 const MORE=[
-  {n:'Покровитель',EUR:36,RUB:3000},{n:'Меценат',EUR:119,RUB:10000},{n:'Единственный',EUR:594,RUB:50000},
+  {n:'Покровитель',EUR:36,RUB:3000,q:'«Откуда у тебя такие деньги? Ты бандит или сын прокурора Краснодарского края? В любом случае, спасибо большое! Я обязательно поблагодарю тебя на стриме!»'},
+  {n:'Меценат',EUR:119,RUB:10000,q:'«Ты знаешь толк в искусстве и готов по-настоящему поддержать талантливого паренька.»'},
+  {n:'Единственный',EUR:594,RUB:50000,q:'«Однажды появившись в моей жизни, ты навсегда оставил самые светлые воспоминания и сердечко мое наполнилось любовью. Забыть тебя невозможно, потому что каждую ночь я засыпаю с именем твоим на устах.»'},
 ];
 const RANK={guest:0,friend:1,sponsor:2,papik:3};
 const NAMES={guest:'Гость',friend:'Дружеская поддержка',sponsor:'Спонсор',papik:'Папик'};
@@ -495,7 +499,7 @@ function renderTiers(){
       <ul>${t.f.map(x=>`<li>${x}</li>`).join('')}</ul>
       ${mine?'<button class="btn btn-ghost" onclick="openAccount()">Твой уровень ✓</button>':`<button class="btn ${t.hot?'btn-acc':'btn-ghost'}" onclick="openCheckout('${t.k}')">Оформить</button>`}
     </div>`}).join('');
-  $('#moreTiers').innerHTML=MORE.map(t=>`<div class="mt"><span>${t.n}</span><b>${money(t[cur],cur)}</b><button class="btn btn-ghost btn-sm" onclick="openCheckout('papik','${t.n}',${t.EUR},${t.RUB})">Выбрать</button></div>`).join('');
+  $('#moreTiers').innerHTML=MORE.map(t=>`<div class="mt"><div class="mh"><span>${t.n}</span><b>${money(t[cur],cur)}</b></div><div class="mq">${t.q}</div><button class="btn btn-ghost btn-sm" onclick="openCheckout('papik','${t.n}',${t.EUR},${t.RUB})">Выбрать</button></div>`).join('');
 }
 function renderAll(){renderAuth();renderEvents();renderTabs();renderGrid();renderTiers();}
 
