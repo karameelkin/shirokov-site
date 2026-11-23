@@ -103,6 +103,13 @@
   .md.poster{max-width:560px;padding:0;background:none;border:0}
   .wish{margin-top:22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:linear-gradient(90deg,#1a1a1a,#26101d);border:1.5px dashed var(--acc);border-radius:var(--r);padding:20px 22px}
   .wish p{flex:1;min-width:240px}
+  .wishd{margin-top:22px;border:0;padding:0}
+  .wishd summary{font-size:15px}
+  .wishd summary:after{content:none}
+  .wishd summary{cursor:pointer;list-style:none;color:var(--acc);font-weight:600}
+  .wishd summary::-webkit-details-marker{display:none}
+  .wishd[open] summary{margin-bottom:12px}
+  .wishd .wish{margin-top:0}
   .wish input{flex:1;min-width:180px}
   input,select{background:#111113;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--text);font:inherit;width:100%}
   input:focus,select:focus{outline:none;border-color:var(--acc)}
@@ -262,15 +269,8 @@
     <div>
       <div class="brand"><svg class="crown" viewBox="0 0 100 60" fill="none" stroke="#ff3aae" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 50 L14 14 L34 36 L50 6 L66 36 L86 12 L92 50 Z"/><path d="M10 56 C35 53, 65 58, 92 54"/></svg><h1>Shirokov</h1><span class="lite">LiTE</span></div>
       <div class="who">Костя Широков <span>· стендап, подкасты, стримы</span></div>
-      <p class="lead">Здесь собрано всё: билеты на концерты, полные версии выпусков и подписка без Патреона.</p>
-      <div class="cta">
+      <div class="cta" style="margin-top:30px">
         <a href="#afisha" class="btn btn-acc">Билеты на концерты</a>
-        <a href="#support" class="btn btn-ghost">Поддержать и смотреть полные версии</a>
-      </div>
-      <div class="stats">
-        <div><b>26,5K</b>на YouTube</div>
-        <div><b>7,5K</b>в Telegram</div>
-        <div><b>9,4M</b>просмотров</div>
       </div>
     </div>
     <div>
@@ -286,7 +286,7 @@
       </div>
       <a class="live" href="https://www.youtube.com/live/Zuh16_JSfQ8" target="_blank" rel="noopener">
         <span class="pulse"></span>
-        <span><b>Стримы</b> на YouTube и Kick, обычно в 20:08 по мск (18:08 CET). Анонс за пару часов в Telegram.</span>
+        <span><b>Стримы</b> на YouTube и Kick, анонсы в Telegram</span>
       </a>
     </div>
   </div>
@@ -296,14 +296,12 @@
 <section id="afisha">
   <div class="wrap">
     <h2>Афиша</h2>
-    <p class="sub">Билеты продаются прямо здесь, без перехода на чужие площадки. Покупка за минуту, билет с QR-кодом приходит на почту.</p>
     <div class="events" id="events"></div>
-    <div class="wish">
-      <p><b>Нет твоего города?</b> Оставь почту: напишу первым, когда откроются продажи рядом с тобой.</p>
+    <details class="wishd"><summary>Нет твоего города? Оставь почту, напишу первым →</summary><div class="wish">
       <input placeholder="Город" id="wCity" style="max-width:200px">
       <input placeholder="Почта" id="wMail" type="email" style="max-width:260px">
       <button class="btn btn-acc" onclick="toast('Готово! Напишем, когда будет концерт в твоём городе')">Хочу концерт</button>
-    </div>
+    </div></details>
   </div>
 </section>
 
@@ -311,9 +309,10 @@
 <section id="watch">
   <div class="wrap">
     <h2>Смотреть</h2>
-    <p class="sub">Бесплатные выпуски открываются сразу. Полные и несмонтированные версии доступны по подписке, в своём плеере, без рекламы, их можно слушать как подкаст.</p>
+    <p class="sub">Бесплатное открывается сразу, полные версии по подписке.</p>
     <div class="tabs" id="tabs"></div>
     <div class="grid" id="grid"></div>
+    <div style="text-align:center;margin-top:22px" id="moreWrap"><button class="btn btn-ghost" onclick="showAll=true;renderGrid()">Показать ещё</button></div>
   </div>
 </section>
 
@@ -321,12 +320,11 @@
 <section id="projects">
   <div class="wrap">
     <h2>Проекты</h2>
-    <p class="sub">Всё, что выходит регулярно.</p>
     <div class="projects">
-      <div class="pr" style="background-image:url(https://i.ytimg.com/vi/KdrwC9_RcFA/hqdefault.jpg)" onclick="filterTo('2s')"><div><h3>В два ствола</h3><p>Подкаст с Дмитрием Колыбелкиным и гостями: про культы, Ватикан, ограбления и Николаса Кейджа.</p></div><div class="w">Полные версии у Спонсоров →</div></div>
-      <div class="pr" style="background-image:url(https://i.ytimg.com/vi/JgRD0eCiFic/hqdefault.jpg)" onclick="filterTo('dp')"><div><h3 class="hand">Друзья по переписке</h3><p>С Идраком Мирзализаде. Читаем письма, решаем проблемы.</p></div><div class="w">Полные версии у Спонсоров →</div></div>
-      <div class="pr" style="background-image:url(https://i.ytimg.com/vi/tL54canqZkc/hqdefault.jpg)" onclick="filterTo('sr')"><div><h3>Серьёзный разговор</h3><p>Импровизационный стендап с залом. Каждый концерт снимается.</p></div><div class="w">Полные версии у Спонсоров →</div></div>
-      <div class="pr sugar" onclick="filterTo('sugar')"><div><h3>SugarPodcast</h3><p>Только для Папиков. Что там, знают только Папики.</p></div><div class="w">Уровень «Папик» →</div></div>
+      <div class="pr" style="background-image:url(https://i.ytimg.com/vi/KdrwC9_RcFA/hqdefault.jpg)" onclick="filterTo('2s')"><div><h3>В два ствола</h3><p>Подкаст с Дмитрием Колыбелкиным</p></div></div>
+      <div class="pr" style="background-image:url(https://i.ytimg.com/vi/JgRD0eCiFic/hqdefault.jpg)" onclick="filterTo('dp')"><div><h3 class="hand">Друзья по переписке</h3><p>С Идраком Мирзализаде</p></div></div>
+      <div class="pr" style="background-image:url(https://i.ytimg.com/vi/tL54canqZkc/hqdefault.jpg)" onclick="filterTo('sr')"><div><h3>Серьёзный разговор</h3><p>Импровизационный стендап</p></div></div>
+      <div class="pr sugar" onclick="filterTo('sugar')"><div><h3>SugarPodcast</h3><p>Только для Папиков</p></div></div>
     </div>
   </div>
 </section>
@@ -335,18 +333,13 @@
 <section id="support">
   <div class="wrap">
     <h2>Подписка</h2>
-    <p class="sub">Те же уровни, что на Бусти и Патреоне, только деньги идут напрямую. Оплата любой картой, отмена в один клик.</p>
+    <p class="sub">Те же уровни, что на Бусти. Отмена в один клик.</p>
     <div class="cur" id="cur">
       <button data-c="EUR" class="on">€ EUR</button>
       <button data-c="RUB">₽ RUB</button>
     </div>
     <div class="tiers" id="tiers"></div>
-    <div class="more-tiers" id="moreTiers"></div>
-    <div class="compare">
-      <div><b>~10%</b>забирает Патреон с каждой подписки плюс комиссия PayPal на вывод</div>
-      <div><b>~3–4%</b>комиссия платёжной системы на своём сайте</div>
-      <div><b>1 место</b>для всего: билеты, видео, подписка, анонсы стримов</div>
-    </div>
+    <details class="wishd" style="margin-top:18px"><summary>Ещё 3 уровня для щедрых →</summary><div class="more-tiers" id="moreTiers"></div></details>
   </div>
 </section>
 
@@ -431,7 +424,7 @@ const VIDEOS=[
 
 const TIERS=[
   {k:'friend',n:'Дружеская поддержка',EUR:1.19,RUB:100,q:'«Я пока не могу предложить вам ничего супер эксклюзивного… Но если есть желание, поддержите»',f:['Просто поддержать','Доступ к сообществу подписчиков']},
-  {k:'sponsor',n:'Спонсор',EUR:6,RUB:500,hot:true,q:'«Ты именно тот, на кого я рассчитываю»',f:['Полные версии «В два ствола»','Полные «Серьёзные разговоры»','Полные «Друзья по переписке»','Эксклюзивные материалы','Режим «только звук» и личная RSS-лента']},
+  {k:'sponsor',n:'Спонсор',EUR:6,RUB:500,hot:true,q:'«Ты именно тот, на кого я рассчитываю»',f:['Полные версии всех проектов','Эксклюзивы','Можно слушать как подкаст']},
   {k:'papik',n:'Папик',EUR:17.9,RUB:1500,q:'«Обязательно буду благодарить тебя на каждом стриме!»',f:['Всё, что у Спонсора','SugarPodcast','Благодарность на каждом стриме']},
 ];
 const MORE=[
@@ -441,7 +434,7 @@ const RANK={guest:0,friend:1,sponsor:2,papik:3};
 const NAMES={guest:'Гость',friend:'Дружеская поддержка',sponsor:'Спонсор',papik:'Папик'};
 
 let role=localStorage.getItem('ks_role')||'guest';
-let cur='EUR', filter='all', tickets=JSON.parse(localStorage.getItem('ks_t')||'[]');
+let showAll=false, cur='EUR', filter='all', tickets=JSON.parse(localStorage.getItem('ks_t')||'[]');
 const $=s=>document.querySelector(s);
 const money=(v,c)=>c==='EUR'?'€'+(v%1?v.toFixed(2).replace('.',','):v):v.toLocaleString('ru-RU')+' ₽';
 
@@ -470,15 +463,17 @@ function renderEvents(){
       </div>
     </div>`).join('')}</div>
     <h3 class="pt">Прошедшие</h3>
-    <div class="strip">${PAST.map(p=>`<div class="pp" onclick="openPoster('${p.poster}')"><img src="${p.poster}" alt="" loading="lazy"><b>${p.t}</b><span>${p.s}</span></div>`).join('')}</div>`;
+    <div class="strip">${PAST.slice(0,4).map(p=>`<div class="pp" onclick="openPoster('${p.poster}')"><img src="${p.poster}" alt="" loading="lazy"><b>${p.t}</b><span>${p.s}</span></div>`).join('')}</div>`;
 }
 function openPoster(src){openM(`<img src="${src}" style="display:block;width:100%;border-radius:24px">`);$('#md').classList.add('poster');}
 function renderTabs(){
   const t=[['all','Всё'],['paid','Только полные версии'],...Object.entries(PROJ)];
-  $('#tabs').innerHTML=t.map(([k,n])=>`<button class="tab ${filter===k?'on':''}" onclick="filter='${k}';renderTabs();renderGrid()">${n}</button>`).join('');
+  $('#tabs').innerHTML=t.map(([k,n])=>`<button class="tab ${filter===k?'on':''}" onclick="filter='${k}';showAll=false;renderTabs();renderGrid()">${n}</button>`).join('');
 }
 function renderGrid(){
-  const list=VIDEOS.filter(v=>filter==='all'||(filter==='paid'?v.lvl:v.p===filter));
+  const full=VIDEOS.filter(v=>filter==='all'||(filter==='paid'?v.lvl:v.p===filter));
+  const list=showAll?full:full.slice(0,6);
+  $('#moreWrap').style.display=full.length>list.length?'':'none';
   $('#grid').innerHTML=list.map((v,i)=>{
     const idx=VIDEOS.indexOf(v), locked=v.lvl&&RANK[role]<RANK[v.lvl];
     const tag=v.lvl?`<span class="badge ${v.lvl==='papik'?'red':'acc'} tag">${v.lvl==='papik'?'Папик':'Спонсор'}</span>`:`<span class="badge tag">Бесплатно</span>`;
